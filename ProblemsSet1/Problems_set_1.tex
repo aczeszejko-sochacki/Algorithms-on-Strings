@@ -67,14 +67,16 @@
         w[kp + 1, kp + l] = w[(k - 1)p + 1, (k - 1)p + l]
       \end{equation}
       
-      Basing on \ref{eq:5}, we can write $w = y^ku$, such that $|y| = p$ and $|u| = l$. On the other hand, by \ref{eq:6}, we have $w = xuvu$, where $|u| = l$, $|v| = p - l$, $|x| = |w| - p - l$. Combining these two conclusions, $y = uv$, so $w = (uv)^ku$.
+      Basing on \ref{eq:5}, we can write $w = y^ku$, such that $|y| = p$ and $|u| = l$. On the other hand, by \ref{eq:6}, we have $w = xuvu$, where $|u| = l$, $|v| = p - l$, $|x| = |w| - p - l$. Combining these two conclusions, 
+$y = uv$, so $w = (uv)^ku$.
     \end{proof}
     
   \subsection{}
     \begin{proof}
       \begin{equation}
         \begin{split}
-          \textit{p is a period of w} &\equiv |w| - p \textit{ is a border of w (\ref{eq:1})} \\ &\equiv  \exists_\textit{x, y, z}(|y| = |w| - p \land xy = yz = w) \\ &\equiv \exists_\textit{x, y, z}(|x| = |y| = p \land xy = yz = w)
+          \textit{p is a period of w} &\equiv |w| - p \textit{ is a border of w (\ref{eq:1})} \\ &\equiv  \exists_\textit{x, y, z}(|y| = |w| - p \land xy = yz = w) \\ &\equiv \exists_\textit{x, y, z}(|x| = |y| = p \land xy = yz = 
+w)
         \end{split}
       \end{equation}
     \end{proof}
@@ -117,6 +119,47 @@
       
       Basing on uv periods lemma and that $|u| = \textit{q mod p}$, enough to prove, that u period condition holds for $w[|w| - |y|, |w|$. As we know, that $y \sqsubset uv$, the proof is done.
     \end{proof}
+    
+    \section{}
+    \section{}
+    \section{}
+    \section{}
+      \begin{equation}
+        \begin{split}
+          \sum_{k=1}^n a_ir^{n-k} \textit{ mod q} &= (\dots((ra_1 + a_2)r + a_3)r \dots)r + a_n \textit{ mod q} \\ &= (\dots((ra_1 \textit{ mod q } + a_2)r \textit{ mod q } + a_3)r \textit{ mod q } \dots)r \textit{ mod q } + a_n 
+\textit{ mod q }
+        \end{split}
+      \end{equation}
+      
+      n multiplications, n modulos, n - 1 additions gives us O(n) time. The second transformation is unnecessary. However, enables us to computing values less than $q^2$. If our $\Sigma\ll |S|$, then
+      calculation all the $ra$\textit{ mod q } in preprocessing might be better than doing it ad hoc.
+    \section{}
+      Given $\phi_r(x)$ and $\phi_r(y)$:
+      \begin{equation}\label{eq:phi}
+        \begin{split}
+          \phi_r(xy) &= \sum_{k=1}^{|xy|}S[k]r^{|xy| - k}\textit{ mod q } \\ &= (\sum_{k=1}^{|x|}S[k]r^{|xy| - k} + \sum_{k=|x| + 1}^{|xy|}S[k]r^{|xy| - k})\textit{ mod q } \\
+          &= (r^|y|\sum_{k=1}^{|x|}x[k]r^{|x| - k}\textit{ mod q } + \sum_{k=|x| + 1}^{|xy|}S[k]r^{|xy| - k}\textit{ mod q })\textit{ mod q } \\ &= (r^{|y|}\phi_r(x) + \phi_r(y))\textit{ mod q }
+        \end{split}
+      \end{equation}
+      
+      Given $\phi_r(xy)$ and $\phi_r(y)$ and referencing \ref{eq:phi}:
+      
+      \begin{equation}
+        \begin{split}
+          \phi_r(xy) &\equiv r^{|y|}\phi_r(x) + \phi_r(y)\textit{ (mod q) } \\
+          \phi_r(xy) - \phi_r(y) &\equiv r^{|y|}\phi(x)\textit{ (mod q) }
+        \end{split}
+      \end{equation}
+      
+      As we know, $q \in \mathbb{P}$ and $r \in \{1, 2, \dots, q - 1\}$. Hence, $gcd(r, q) = 1$. Considering, that we are in $\mathbb{Z}_p^*$, the inverse element of $r^{|y|}$, basing on Fermat's
+      little theorem, is $r^{q - |y| - 1}$. Therefore
+      
+      \[\phi_r(x) \equiv r^{q - |y| - 1}(\phi_r(xy) - \phi_r(y))\textit{ (mod q) }\]
+      
+      As $\phi_r(x) < q$:
+      
+      \[\phi_r(x) = r^{q - |y| - 1}(\phi_r(xy) - \phi_r(y))\textit{ mod q }\]
+      
       
 \end{document}
 
