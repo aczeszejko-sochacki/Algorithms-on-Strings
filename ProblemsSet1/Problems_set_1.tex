@@ -1,0 +1,122 @@
+\documentclass{scrartcl}
+\usepackage[utf8]{inputenc}
+
+\title{Algorithms on Strings}
+\subtitle{Problems Set 1}
+\author{Aleksander Czeszejko-Sochacki}
+\date{October 2018}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\newtheorem{lema}{Lemma}
+
+\begin{document}
+
+\maketitle
+
+\section{}
+  \begin{proof}
+    \begin{equation}\label{eq:1}
+      \begin{split}
+        |w| - p \textit{ is a border } &\equiv w[1, |w| - p] = w[|w| - (|w| - p), |w|] \\
+        &\equiv w[1, |w| - p] = w[p, |w|] \\
+        &\equiv w[i] = w[i + p] \textit{ for } i \in \{1, 2, \dots, |w| - p\} \\
+        &\equiv \textit{ p is a period of w}
+      \end{split}
+    \end{equation}
+  \end{proof}
+\section{}
+
+  \subsection{}
+    \begin{proof}
+      \begin{equation}
+        \begin{split}
+          \textit{p is a period of w } &\equiv 
+          \textit{w is a subword of some } x^k \textit{ with } |x| = p \textit{ and } k > 0 \\ 
+          &\equiv w = ux^jv \textit{ where } j \leq k, u \sqsubset x \textit{ and } v \sqsupset x
+        \end{split}
+      \end{equation}
+
+      Since u and v - suffix and prefix of x, respectively, we can proceed as follows:
+
+      \begin{equation}\label{eq:2}
+        w = ux^jv = u(zu)^jv = (uz)^juv
+      \end{equation}
+    
+      Hence, the period condition holds for i $\in \{1, 2, \dots, |w| - p - |v|\}$. On the other hand:
+
+      \begin{equation}\label{eq:3}
+        w = ux^jv = ux^{j - 1}vyv
+      \end{equation}
+
+      So the period condition holds for i $\in \{|w| - p - |v|, |w| - p - |v| + 1, \dots, |w| - p\}$.
+      From \ref{eq:2} and \ref{eq:3} the proof is done.
+    \end{proof}
+    
+  \subsection{}
+    \begin{proof}
+      Assume $|w| = kp + l$. From the period condition we have:
+      
+      \begin{equation}\label{eq:5}
+        w[1, p] = w[p + 1, 2p] = \dots = w[(k - 1]p + 1, kp]
+      \end{equation}
+      
+      and
+      
+      \begin{equation}\label{eq:6}
+        w[kp + 1, kp + l] = w[(k - 1)p + 1, (k - 1)p + l]
+      \end{equation}
+      
+      Basing on \ref{eq:5}, we can write $w = y^ku$, such that $|y| = p$ and $|u| = l$. On the other hand, by \ref{eq:6}, we have $w = xuvu$, where $|u| = l$, $|v| = p - l$, $|x| = |w| - p - l$. Combining these two conclusions, $y = uv$, so $w = (uv)^ku$.
+    \end{proof}
+    
+  \subsection{}
+    \begin{proof}
+      \begin{equation}
+        \begin{split}
+          \textit{p is a period of w} &\equiv |w| - p \textit{ is a border of w (\ref{eq:1})} \\ &\equiv  \exists_\textit{x, y, z}(|y| = |w| - p \land xy = yz = w) \\ &\equiv \exists_\textit{x, y, z}(|x| = |y| = p \land xy = yz = w)
+        \end{split}
+      \end{equation}
+    \end{proof}
+    
+    \begin{lema}[uv periods]\label{lemma:10}
+       For any unempty $u, v$ and some $k \in \mathbb{N}$, if $uv = vu$, then $|u|,|v|$ are periods of $(uv)^k$.
+    \end{lema}
+    \begin{proof}
+      \begin{equation}
+        \begin{split}
+          |v| \textit{ is a period of } (uv)^k &\equiv |uv|^k - |v| \textit{ is a border of } (uv)^k 
+          (\ref{eq:1}) \\ &\equiv (uv)^{k-1}u \textit{ is both prefix and suffix of } (uv)^k
+        \end{split}
+      \end{equation}
+      
+      Indeed, $(uv)^{k-1}u \sqsubset (uv)^k$ and $(uv)^{k-1}u \sqsupset (vu)^k = (uv)^k$ For $|u|$ the proof is simmilar.
+    \end{proof}
+    
+  \section{}
+    \begin{proof}
+      The thesis is equvalent to the following implication:
+      \[\textit{p, q are periods of } w \implies \textit{q mod p, p are periods of w}\]
+      
+      Let $w[1, p] = P$, $p < q$ ($p = q$ does not make any sense). We can write:
+      \[w = w[1, q]w[q + 1, |w|] = \underbrace{P^ku}_{w[1, q]}\underbrace{vP^ky}_{w[q + 1, |w|]}\]
+      where $uv = P$, $k,l \in \mathbb{N}$.
+      
+      \begin{equation}
+        \begin{split}
+          q \textit{ is a period of } w &\implies |w| - q \textit{ is a border of } w \\ &\implies
+          w[q + 1, |w|] \sqsubset w \\ &\equiv vP^ky \sqsubset w
+        \end{split}
+      \end{equation}
+      
+      As we know from the problem conditions, $p + q < |w|$, so $p < |w| - q$, implies, that $P \sqsubset vP^ky$, what is equivalent to $uv \sqsubset v(uv)^ky$, especially $uv \sqsubset vuv$, what gives us
+      
+      \begin{equation}
+        uv = vu
+      \end{equation}
+      
+      Basing on uv periods lemma and that $|u| = \textit{q mod p}$, enough to prove, that u period condition holds for $w[|w| - |y|, |w|$. As we know, that $y \sqsubset uv$, the proof is done.
+    \end{proof}
+      
+\end{document}
+
