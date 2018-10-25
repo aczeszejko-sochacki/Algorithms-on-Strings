@@ -1,0 +1,89 @@
+\documentclass{scrartcl}
+\usepackage[utf8]{inputenc}
+
+\title{Algorithms on Strings}
+\subtitle{Problems Set 2}
+\author{Aleksander Czeszejko-Sochacki}
+\date{October 2018}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\newtheorem{theorem}{Induction}
+
+\begin{document}
+
+\maketitle
+\section{}
+  \begin{proof}
+    Since we know that $|t| \leq 2|p|$, each pair of the pattern occurrences has
+    non-empty intersection.  Assume $q_1, q_2, \dots, q_n$ - all the occurrences of $p$ in $t$
+    \begin{enumerate}
+        \item $|t| < 2|p|$ \\ 
+          Assume $q_1 = 0$. Consider two occurrences of $p$ in $t$ - $q_1, q_2$. 
+          By the above fact there is a subword $w$ 
+          having a border $|p|$. By the lemma from the Problem Set 1, we conclude, that $q_2$ - periods
+          of $w$, so, especially, $q_1, q_2$ - periods of $p$. Considering all possible pairs of $q_i, q_j$ 
+          gives us $q_1, \dots, q_n$ - periods of p. By the another lemma from the Problem Set 1,
+          $gcd(q_i, q_j)$ - period of $p$. So $gcd(q_2, \dots, q_n) = d$ is also a period of p and hence
+          \begin{equation}\label{period}
+            p = u^kv
+          \end{equation}
+          where $|d| = u$ and
+          \[q_i = \alpha d\]
+          for all $i \in \{1, \dots, n\}$. Easy to prove, that $q_i = id$. Consider the first occurence such
+          that $q_i = (i+k)d$, $k > 0$. Then there should be a mismatch at $id$, what stays in contradiction to matches at $q_{i-1},q_i$ and the form \ref{period}. \\
+          For $q_1 \neq 0$ we need to subtract $q_1$ everywhere above.
+        \item $|t| = 2|p|$ \\
+          Trivial, there are only at most two occurrences of $p$ in $t$.
+    \end{enumerate}
+  \end{proof}
+
+\section{}
+  \begin{proof}
+    Induction by $n$. \\
+    We can write the thesis in an equivalent way:
+    \[f_nf_{n+1} = c(f_{n+1}f_n)\]
+    
+    Observation:
+    \begin{equation}
+      c(ab) = ac(b) \textit{ if } |b| > 1
+    \end{equation}
+    
+    \begin{theorem}[Base]
+      \begin{equation}
+        \begin{split}
+          f_1f_2 &= c(f_2f_1)\\
+          f2_1f_3 &= c(f_3f_2)
+        \end{split}
+      \end{equation}
+    \end{theorem}
+    \begin{proof}
+      \begin{equation}
+        \begin{split}
+          ba &= c(ab)\\
+          bab &= c(bba)
+        \end{split}
+      \end{equation}
+    \end{proof}
+    
+    
+    \begin{theorem}[Step]
+      \begin{equation}
+        f_nf_{n+1} = c(f_{n+1}f_n \implies f_{n+1}f_{n+1} = c(f_{n+2}f_{n+1})
+      \end{equation}
+    \end{theorem}
+    \begin{proof}
+      \begin{equation}
+        \begin{split}
+          f_{n+1}f_{n+2} &= f_{n+1}f_{n+1}f_n \\
+          &= f_{n+1}f_nf_{n-1}f_n \\
+          &= f_{n+2}f_{n-1}f_n && \text{induction}\\
+          &= f_{n+2}c(f_nf_{n-1}) && \text{observation 1}\\
+          &= f_{n+2}c(f_{n+1}) \\
+          &= c(f_{n+2}f_{n+1})
+        \end{split}
+      \end{equation}
+    \end{proof}
+  \end{proof}
+  
+ \end{document}
