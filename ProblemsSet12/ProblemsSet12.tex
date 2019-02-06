@@ -1,0 +1,48 @@
+\documentclass{scrartcl}
+\usepackage[utf8]{inputenc}
+
+\title{Algorithms on Strings}
+\subtitle{Problems Set 12}
+\author{Aleksander Czeszejko-Sochacki}
+\date{February 2019}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\newtheorem{lema}{Lemma}
+\begin{document}
+
+\maketitle
+
+\section{Solution}
+ Given n strings $S_1, S_2, \dots, S_N$, firstly note, that the shortest superstring (OPT) satisfies the formula:
+  \begin{equation}
+   |OPT| = \sum_i^NS_i - \sum_{i > 1}^N|overlap(S_{i-1}, S_i)|
+  \end{equation}
+ Where strings $S_i$ are indexed in the order of occurences in the supertring.
+ Hence we need to maximize $\sum_{i > 1}^N|overlap(S_{i-1}, S_i)|$.
+ Construct a weighted graph with the following properties:
+ \begin{itemize}
+  \item Each node $v_i$ represents the string $S_i$
+  \item The weight of the edge $v_iv_j$ equals $overlap(S_i, S_j)$
+  \item Add $v_0$ node as the start node, weight of $v_0v_i = 0$ for each i
+ \end{itemize}
+ Then note, that the maximum value of $\sum_{i > 1}^N|overlap(S_{i-1}, S_i)|$
+ is equivalent to the Hamiltonian path in this graph. We are going to solve the problem of
+ finding Hamiltonian path using Held-Karp dynamic algorithm for TSP (without the last edge, because the
+ last string does not overlap with the first).
+ 
+ \begin{lema}[Shortest path from $S_i$ to $S_j$]
+  Let $min\_path(S_i, S_j, n)$ - the cheapest path from $S_i$ to $S_j$ visiting exactly n nodes. Then
+  \begin{equation}
+   min\_path(S_i, S_j, n) = \min(min\_path(S_i, S_k, n-1) + v_kv_j)
+  \end{equation}
+  for $k \notin {S_i, S_j}$
+ \end{lema}
+
+ We added $v_0$ to the graph, because we do not have predefined start. Start at $v_0$ and consecutively
+ build the cheapest paths of length $1, 2, \dots, N$ to get the final result. The time complexity of computing the operation in lemma is $\mathcal{O}(n)$. We have $\mathcal{O}(n*2^n)$ subproblems, so the
+ final time complexity is $\mathcal{O}(n^2*2^n)$.
+ 
+ 
+\end{document}
+
